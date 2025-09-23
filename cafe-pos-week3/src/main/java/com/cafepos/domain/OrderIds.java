@@ -1,0 +1,13 @@
+package com.cafepos.domain;
+
+import java.util.concurrent.atomic.AtomicLong;
+
+public final class OrderIds {
+    private static final AtomicLong counter = new AtomicLong(1);
+
+    private OrderIds() {} 
+
+    public static long next() {
+        return counter.getAndIncrement();
+    }
+}
