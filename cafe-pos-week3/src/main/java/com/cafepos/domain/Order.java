@@ -3,6 +3,7 @@ package com.cafepos.domain;
 import java.util.List;
 import java.util.ArrayList;
 import com.cafepos.common.Money;
+import com.cafepos.payment.PaymentStrategy;
 
 
 public final class Order {
@@ -40,6 +41,12 @@ public final class Order {
 
     public List<LineItem> items(){
         return items;
+    }
+
+    public void pay(PaymentStrategy strategy) {
+        if (strategy == null) throw new
+        IllegalArgumentException("strategy required");
+        strategy.pay(this);
     }
 
 }
