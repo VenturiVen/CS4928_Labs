@@ -7,7 +7,6 @@ import com.cafepos.payment.WalletPayment;
 import com.cafepos.catalog.*;
 import com.cafepos.common.*;
 import com.cafepos.domain.*;
-import com.cafepos.payment.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
