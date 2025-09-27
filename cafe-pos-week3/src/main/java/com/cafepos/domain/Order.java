@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import com.cafepos.common.Money;
 import com.cafepos.payment.PaymentStrategy;
 
-
 public final class Order {
+
     private final long id;
     private final List<LineItem> items = new ArrayList<>();
     
-    
-    public Order(long id) { 
-        this.id = id; 
+    public Order(long id) {
+        this.id = id;
     }
     
     public void addItem(LineItem li) {

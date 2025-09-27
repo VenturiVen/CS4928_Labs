@@ -19,7 +19,7 @@ public final class SimpleProduct implements Product {
         this.id = id;
         this.name = name;
         this.basePrice = basePrice;
-     }
+    }
 
 
 @Override public String id() { return id; }

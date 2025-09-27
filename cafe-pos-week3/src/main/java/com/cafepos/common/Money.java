@@ -6,14 +6,13 @@ import java.math.RoundingMode;
 public final class Money implements Comparable<Money> {
 
     private final BigDecimal amount;
-   
 
 // Factory methods
 
     public static Money of(double value) {
         if(value<0){
             throw new IllegalArgumentException("Money amount cannot be negative");
-        }   
+        }
         return new Money(BigDecimal.valueOf(value));
     }
 

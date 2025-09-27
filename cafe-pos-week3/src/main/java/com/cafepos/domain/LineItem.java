@@ -11,7 +11,7 @@ public final class LineItem {
         if (product == null) throw new IllegalArgumentException("product required");
         if (quantity <= 0) throw new IllegalArgumentException("quantity must be > 0");
 
-        this.product = product; 
+        this.product = product;
         this.quantity = quantity;
     }
 
@@ -19,4 +19,4 @@ public final class LineItem {
     public int quantity() { return quantity; }
     public Money lineTotal() { return
     product.basePrice().multiply(quantity); }
-    }
+}
