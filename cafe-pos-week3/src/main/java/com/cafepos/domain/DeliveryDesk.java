@@ -1,7 +1,7 @@
 package com.cafepos.domain;
 
 public final class DeliveryDesk implements OrderObserver {
-@Override
+    @Override
     public void updated(Order order, String eventType) {
 
         if (eventType.equals("ready")) {
