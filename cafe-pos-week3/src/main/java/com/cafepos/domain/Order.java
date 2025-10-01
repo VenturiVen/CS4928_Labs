@@ -9,6 +9,7 @@ public final class Order {
 
     private final long id;
     private final List<LineItem> items = new ArrayList<>();
+    private final List<OrderObserver> observers = new ArrayList<>();
     
     public Order(long id) {
         this.id = id;
@@ -19,6 +20,7 @@ public final class Order {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
         items.add(li);
+        notifyObservers("itemAdded");
     }
     
     public Money subtotal() {
@@ -46,7 +48,29 @@ public final class Order {
         if (strategy == null) throw new
         IllegalArgumentException("strategy required");
         strategy.pay(this);
+        notifyObservers("paid");
     }
+
+    public void register(OrderObserver o) {
+        if (o == null) throw new IllegalArgumentException("Observer cannot be null");
+        if (observers.contains(o)) throw new IllegalArgumentException("Observer already registered");
+        observers.add(o);
+    }
+    public void unregister(OrderObserver o) {
+        if (!observers.contains(o)) throw new IllegalArgumentException("Observer not registered");
+        observers.remove(o);
+    }
+    
+    private void notifyObservers(String eventType) {
+        for (OrderObserver o : observers) {
+            o.updated(this, eventType);
+        }
+    }
+    
+    public void markReady() {
+        notifyObservers("ready");
+    }
+
 
 }
 
