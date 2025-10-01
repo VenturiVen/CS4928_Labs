@@ -1,13 +1,10 @@
 package com.cafepos;
 
 import com.cafepos.domain.OrderObserver;
-import com.cafepos.catalog.InMemoryCatalog;
 import com.cafepos.catalog.SimpleProduct;
 import com.cafepos.common.Money;
 import com.cafepos.domain.LineItem;
 import com.cafepos.domain.Order;
-import com.cafepos.domain.OrderIds;
-import com.cafepos.catalog.Catalog;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
