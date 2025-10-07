@@ -15,7 +15,7 @@ public final class Syrup extends ProductDecorator {
     public String name() {
         return base.name() + "+ Syrup";
     }
-
+    
     public Money price() {
         return (base instanceof Priced p ? p.price() : base.basePrice()).add(SURCHARGE);
     }
