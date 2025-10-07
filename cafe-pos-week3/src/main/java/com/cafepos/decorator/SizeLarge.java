@@ -10,11 +10,12 @@ public final class SizeLarge extends ProductDecorator {
         super(base);
     }
 
-    @Override public String name() { return base.name() + "(Large)"; }
+    @Override
+    public String name() {
+        return base.name() + "(Large)";
+    }
 
     public Money price() {
-        return (base instanceof Priced p
-                ? p.price()
-                : base.basePrice()).add(SURCHARGE);
+        return (base instanceof Priced p ? p.price() : base.basePrice()).add(SURCHARGE);
     }
 }
