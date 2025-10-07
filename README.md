@@ -14,12 +14,18 @@ To do this, we use the PaymentStrategy as an interface that calls the Order meth
 
 ### How does the Observer pattern improve decoupling in the Café POS system?
 
-The Observer pattern improves decoupling in the Café POS system by allowing different components (observers) to subscribe to updates from the Order class (subject) without the Order class needing to know about the specific implementations of those components. This means that new observers can be added or existing ones modified without changing the Order class.  
+The Observer pattern improves decoupling in the Café POS system by allowing different components (observers) to subscribe to updates from the Order class (subject) without the Order class needing to know about the specific implementations of those components. This means that new observers can be added or existing ones modified without changing the Order class.
 
-## Why is it beneficial that new observers can be added without modifying the Order class?
+### Why is it beneficial that new observers can be added without modifying the Order class?
 
 It is beneficial that new observers can be added without modifying the Order class because it adheres to the Open/Closed Principle, which states that software entities should be open for extension but closed for modification. This allows for easier maintenance and scalability of the system.
 
-## Can you think of a real-world system (outside cafés) where Observer is used (e.g., push notifications GUIs)?
+### Can you think of a real-world system (outside cafés) where Observer is used (e.g., push notifications GUIs)?
 
-A real-world system where the Observer pattern is used is in social media platforms. For example, when a user follows another user, they become an observer of that user's activity. Whenever the followed user posts new content, all their followers (observers) are notified of the update, allowing them to see the new post in their feed without the original user needing to manage or notify each follower individually.  
+A real-world system where the Observer pattern is used is in social media platforms. For example, when a user follows another user, they become an observer of that user's activity. Whenever the followed user posts new content, all their followers (observers) are notified of the update, allowing them to see the new post in their feed without the original user needing to manage or notify each follower individually.
+
+## Week 5 Lab Questions
+
+### Which construction approach you would expose to application developers and why.
+
+Factory based construction using ProductFactory is the appraoch I would expose to application developers. It is simple, hiding the construction logic and decorator chaining, reducing room for error. It standardises the building procedure. It can easily be extended upon, allowing for easy addition of product types.
