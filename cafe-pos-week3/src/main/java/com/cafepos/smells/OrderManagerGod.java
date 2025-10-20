@@ -6,10 +6,8 @@ import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
 
-    // Global/Static State: `TAX_PERCENT` is global — risky and hard to test.
     public static int TAX_PERCENT = 10;
 
-    // Global/Static State: `LAST_DISCOUNT_CODE` is global — risky and hard to test.
     public static String LAST_DISCOUNT_CODE = null;
 
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt)
@@ -50,7 +48,6 @@ public class OrderManagerGod {
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
 
-        // Global/Static State: if `TAX_PERCENT` changes here, it affects all future orders and the tax will be miscalculated.
         var tax = Money.of(discounted.asBigDecimal()
                 .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
                 .divide(java.math.BigDecimal.valueOf(100)));
@@ -74,7 +71,7 @@ public class OrderManagerGod {
         if (discount.asBigDecimal().signum() > 0) {
             receipt.append("Discount: -").append(discount).append("\n");
         }
-        // Global/Static State: if `TAX_PERCENT` changes mid-run, output could be inconsistent
+
         receipt.append("Tax (").append(TAX_PERCENT).append("%):").append(tax).append("\n");
         receipt.append("Total: ").append(total);
         
