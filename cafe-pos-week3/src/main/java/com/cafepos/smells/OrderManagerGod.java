@@ -6,8 +6,10 @@ import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
 
+    // Global/Static State: `TAX_PERCENT` is global — risky and hard to test.
     public static int TAX_PERCENT = 10;
 
+    // Global/Static State: `LAST_DISCOUNT_CODE` is global — risky and hard to test.
     public static String LAST_DISCOUNT_CODE = null;
 
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt)
@@ -27,8 +29,6 @@ public class OrderManagerGod {
         Money subtotal = unitPrice.multiply(qty);
         Money discount = Money.zero();
 
-        // Feature Envy: discount rules embedded inline
-        // Shotgun Surgery: any change to discount codes forces updating this method
         if (discountCode != null) {
             if (discountCode.equalsIgnoreCase("LOYAL5")) {
                 discount = Money.of(subtotal.asBigDecimal()
@@ -45,21 +45,17 @@ public class OrderManagerGod {
             LAST_DISCOUNT_CODE = discountCode;
         }
 
-        // Feature Envy: tax calculation embedded inline
         Money discounted = Money.of(subtotal.asBigDecimal().subtract(discount.asBigDecimal()));
 
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
 
-        // Feature Envy: tax calculation embedded inline
-        // Shotgun Surgery: any change to tax rules forces updating this method
+        // Global/Static State: if `TAX_PERCENT` changes here, it affects all future orders and the tax will be miscalculated.
         var tax = Money.of(discounted.asBigDecimal()
                 .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
                 .divide(java.math.BigDecimal.valueOf(100)));
         var total = discounted.add(tax);
 
-        // Feature Envy: payment logic embedded inline
-        // Shotgun Surgery: any change to payment types forces updating this method (e.g., adding new payment types)
         if (paymentType != null) {
             if (paymentType.equalsIgnoreCase("CASH")) {
                 System.out.println("[Cash] Customer paid " + total + "EUR");
@@ -72,22 +68,22 @@ public class OrderManagerGod {
             }
         }
 
-        // Feature Envy: receipt generation embedded inline
-        // Shotgun Surgery: any change to receipt format forces updating this method
         StringBuilder receipt = new StringBuilder();
         receipt.append("Order (").append(recipe).append(")x").append(qty).append("\n");
         receipt.append("Subtotal: ").append(subtotal).append("\n");
         if (discount.asBigDecimal().signum() > 0) {
             receipt.append("Discount: -").append(discount).append("\n");
         }
+        // Global/Static State: if `TAX_PERCENT` changes mid-run, output could be inconsistent
         receipt.append("Tax (").append(TAX_PERCENT).append("%):").append(tax).append("\n");
         receipt.append("Total: ").append(total);
+        
         String out = receipt.toString();
 
-        // Feature Envy: printing logic should be in a separate class
         if (printReceipt) {
             System.out.println(out);
         }
+
         return out;
     }
 }
