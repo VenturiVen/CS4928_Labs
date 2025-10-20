@@ -6,13 +6,10 @@ import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
 
-    // Primitive Obsession: using int instead of a tax class
     public static int TAX_PERCENT = 10;
 
-    // Primitive Obsession: using String instead of a DiscountCode enum or type
     public static String LAST_DISCOUNT_CODE = null;
 
-    // Primitive Obsession: using String instead of enums or classes for recipe, paymentType, discountCode
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt)
     {
         ProductFactory factory = new ProductFactory();
@@ -27,18 +24,17 @@ public class OrderManagerGod {
         }
         if (qty <= 0)
             qty = 1;
+        // Duplicated Logic: Money manipulations scattered inline
         Money subtotal = unitPrice.multiply(qty);
         Money discount = Money.zero();
 
-        // Primitive Obsession: using String comparisons instead of a DiscountCode enum
+        // Duplicated Logic: repetitive discount code handling
         if (discountCode != null) {
             if (discountCode.equalsIgnoreCase("LOYAL5")) {
-                discount = Money.of(subtotal.asBigDecimal() 
-                        // Primitive Obsession: magic number should instead be a constant or part of a Discount class
+                discount = Money.of(subtotal.asBigDecimal()
                         .multiply(java.math.BigDecimal.valueOf(5))
                         .divide(java.math.BigDecimal.valueOf(100)));
             } else if (discountCode.equalsIgnoreCase("COUPON1")) {
-                // Primitive Obsession: magic number should instead be a constant or part of a Discount class
                 discount = Money.of(1.00);
             } else if (discountCode.equalsIgnoreCase("NONE")) {
                 discount = Money.zero();
@@ -49,18 +45,19 @@ public class OrderManagerGod {
             LAST_DISCOUNT_CODE = discountCode;
         }
 
+        // Duplicated Logic: Money and BigDecimal manipulations scattered inline
         Money discounted = Money.of(subtotal.asBigDecimal().subtract(discount.asBigDecimal()));
 
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
 
-        // Primitive Obsession: uses primitive constants instead of a Tax class or object
+        // Duplicated Logic: Logic same as discount calculation
         var tax = Money.of(discounted.asBigDecimal()
                 .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
                 .divide(java.math.BigDecimal.valueOf(100)));
         var total = discounted.add(tax);
 
-        // Primitive Obsession: using String instead of a PaymentType enum
+        // Duplicated Logic: Repeated string comparison
         if (paymentType != null) {
             if (paymentType.equalsIgnoreCase("CASH")) {
                 System.out.println("[Cash] Customer paid " + total + "EUR");
@@ -76,6 +73,7 @@ public class OrderManagerGod {
         StringBuilder receipt = new StringBuilder();
         receipt.append("Order (").append(recipe).append(")x").append(qty).append("\n");
         receipt.append("Subtotal: ").append(subtotal).append("\n");
+        // Duplicated Logic: Values already computed 
         if (discount.asBigDecimal().signum() > 0) {
             receipt.append("Discount: -").append(discount).append("\n");
         }
