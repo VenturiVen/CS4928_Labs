@@ -10,9 +10,6 @@ public final class Money implements Comparable<Money> {
 // Factory methods
 
     public static Money of(double value) {
-        if(value<0){
-            throw new IllegalArgumentException("Money amount cannot be negative");
-        }
         return new Money(BigDecimal.valueOf(value));
     }
 
@@ -40,17 +37,15 @@ public final class Money implements Comparable<Money> {
     }
     
     public Money multiply(int qty) {
-        if (qty <= 0) throw new IllegalArgumentException("qty must be > 0");
         return new Money(this.amount.multiply(BigDecimal.valueOf(qty)).setScale(2, RoundingMode.HALF_UP));
     }
 
     public Money divide(int qty) {
-        if (qty <= 0) throw new IllegalArgumentException("qty must be > 0");
         return new Money(this.amount.divide(BigDecimal.valueOf(qty), 2, RoundingMode.HALF_UP));
     }
 
     // getter method
-    public BigDecimal asBigDecimal() {
+    public BigDecimal asBigDecimal() { 
         return amount;
     }
 

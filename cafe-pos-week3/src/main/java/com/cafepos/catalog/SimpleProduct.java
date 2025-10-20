@@ -12,7 +12,7 @@ public final class SimpleProduct implements Product {
 
     public SimpleProduct(String id, String name, Money basePrice)
     {
-        if (basePrice.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+        if (basePrice.asBigDecimal().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("basePrice cannot be negative");
         }
         
