@@ -8,10 +8,14 @@ public class OrderManagerGod {
     public static int TAX_PERCENT = 10;
     public static String LAST_DISCOUNT_CODE = null;
 
+    // God Class & Long Method: One method performs creation, pricing, discounting, tax, payment I/O, and printing.
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt)
     {
+        // God Class & Long Method: Creation
         ProductFactory factory = new ProductFactory();
         Product product = factory.create(recipe);
+
+        // God Class & Long Method: Pricing
         Money unitPrice;
         try {
             var priced = product instanceof com.cafepos.decorator.Priced p ? p.price() : product.basePrice();
@@ -23,6 +27,8 @@ public class OrderManagerGod {
             qty = 1;
         Money subtotal = unitPrice.multiply(qty);
         Money discount = Money.zero();
+        
+        // God Class & Long Method: Discounting
         if (discountCode != null) {
             if (discountCode.equalsIgnoreCase("LOYAL5")) {
                 discount = Money.of(subtotal.asBigDecimal()
@@ -38,14 +44,17 @@ public class OrderManagerGod {
             LAST_DISCOUNT_CODE = discountCode;
         }
 
+        // God Class & Long Method: Tax
         Money discounted = Money.of(subtotal.asBigDecimal().subtract(discount.asBigDecimal()));
-        
+
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
         var tax = Money.of(discounted.asBigDecimal()
                 .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
                 .divide(java.math.BigDecimal.valueOf(100)));
         var total = discounted.add(tax);
+
+        // God Class & Long Method: Payment I/O
         if (paymentType != null) {
             if (paymentType.equalsIgnoreCase("CASH")) {
                 System.out.println("[Cash] Customer paid " + total + "EUR");
@@ -57,6 +66,8 @@ public class OrderManagerGod {
                 System.out.println("[UnknownPayment] " + total);
             }
         }
+
+        // God Class & Long Method: printing
         StringBuilder receipt = new StringBuilder();
         receipt.append("Order (").append(recipe).append(")x").append(qty).append("\n");
         receipt.append("Subtotal: ").append(subtotal).append("\n");
@@ -66,6 +77,8 @@ public class OrderManagerGod {
         receipt.append("Tax (").append(TAX_PERCENT).append("%):").append(tax).append("\n");
         receipt.append("Total: ").append(total);
         String out = receipt.toString();
+
+        // God Class & Long Method: Printing
         if (printReceipt) {
             System.out.println(out);
         }
