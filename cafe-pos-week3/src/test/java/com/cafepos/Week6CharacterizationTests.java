@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Week6CharacterizationTests {
     @Test
     void no_discount_cash_payment() {
-        String receipt = OrderManagerGod.process("ESP+SHOT+OAT", 1,
-                "CASH", "NONE", false);
+        String receipt = OrderManagerGod.process("ESP+SHOT+OAT", 1, "CASH", "NONE", false);
         assertTrue(receipt.startsWith("Order (ESP+SHOT+OAT) x1"));
         assertTrue(receipt.contains("Subtotal: 3.80"));
         assertTrue(receipt.contains("Tax (10%): 0.38"));
@@ -39,4 +38,15 @@ public class Week6CharacterizationTests {
         assertTrue(receipt.contains("Tax (10%): 0.23"));
         assertTrue(receipt.contains("Total: 2.53"));
     }
+
+    @Test
+    void no_discount_unknown_coupon() {
+        String receipt = OrderManagerGod.process("ESP+SHOT+OAT", 1, "CASH", "UNKNOWNCODE", false);
+        assertTrue(receipt.startsWith("Order (ESP+SHOT+OAT) x1"));
+        assertTrue(receipt.contains("Subtotal: 3.80"));
+        assertTrue(receipt.contains("Tax (10%): 0.38"));
+        assertTrue(receipt.contains("Total: 4.18"));
+    }
+
+    
 }
