@@ -6,6 +6,8 @@ import com.cafepos.pricing.FixedCouponDiscount;
 import com.cafepos.pricing.FixedRateTaxPolicy;
 import com.cafepos.pricing.LoyaltyPercentDiscount;
 import com.cafepos.pricing.NoDiscount;
+import com.cafepos.pricing.ReceiptPrinter;
+import com.cafepos.pricing.PricingService;
 import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
@@ -69,22 +71,11 @@ public class OrderManagerGod {
             }
         }
 
-        StringBuilder receipt = new StringBuilder();
-        receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
-        receipt.append("Subtotal: ").append(subtotal).append("\n");
-        if (discount.asBigDecimal().signum() > 0) {
-            receipt.append("Discount: -").append(discount).append("\n");
-        }
+        String receipt = new ReceiptPrinter()
+                .format(recipe, qty, new PricingService.PricingResult(subtotal, discount, tax, total), TAX_PERCENT);
 
-        receipt.append("Tax (").append(TAX_PERCENT).append("%): ").append(tax).append("\n");
-        receipt.append("Total: ").append(total);
-        
-        String out = receipt.toString();
+        System.out.println(receipt);
 
-        if (printReceipt) {
-            System.out.println(out);
-        }
-
-        return out;
+        return receipt;
     }
 }
