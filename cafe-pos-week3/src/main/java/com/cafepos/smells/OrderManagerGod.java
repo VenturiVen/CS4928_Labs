@@ -2,6 +2,9 @@ package com.cafepos.smells;
 
 import com.cafepos.common.Money;
 import com.cafepos.factory.ProductFactory;
+import com.cafepos.pricing.FixedCouponDiscount;
+import com.cafepos.pricing.LoyaltyPercentDiscount;
+import com.cafepos.pricing.NoDiscount;
 import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
@@ -29,15 +32,17 @@ public class OrderManagerGod {
 
         if (discountCode != null) {
             if (discountCode.equalsIgnoreCase("LOYAL5")) {
-                discount = Money.of(subtotal.asBigDecimal()
-                        .multiply(java.math.BigDecimal.valueOf(5))
-                        .divide(java.math.BigDecimal.valueOf(100)));
+                // 5% loyalty discount
+                discount = new LoyaltyPercentDiscount(5).discountOf(subtotal);
             } else if (discountCode.equalsIgnoreCase("COUPON1")) {
-                discount = Money.of(1.00);
+                // Fixed discount
+                discount = new FixedCouponDiscount(Money.of(1.00)).discountOf(subtotal);
             } else if (discountCode.equalsIgnoreCase("NONE")) {
-                discount = Money.zero();
+                // No discount
+                discount = new NoDiscount().discountOf(subtotal);
             } else {
-                discount = Money.zero();
+                // No discount
+                discount = new NoDiscount().discountOf(subtotal);
             }
 
             LAST_DISCOUNT_CODE = discountCode;
@@ -66,13 +71,13 @@ public class OrderManagerGod {
         }
 
         StringBuilder receipt = new StringBuilder();
-        receipt.append("Order (").append(recipe).append(")x").append(qty).append("\n");
+        receipt.append("Order (").append(recipe).append(") x").append(qty).append("\n");
         receipt.append("Subtotal: ").append(subtotal).append("\n");
         if (discount.asBigDecimal().signum() > 0) {
             receipt.append("Discount: -").append(discount).append("\n");
         }
 
-        receipt.append("Tax (").append(TAX_PERCENT).append("%):").append(tax).append("\n");
+        receipt.append("Tax (").append(TAX_PERCENT).append("%): ").append(tax).append("\n");
         receipt.append("Total: ").append(total);
         
         String out = receipt.toString();
