@@ -24,10 +24,13 @@ public final class Order {
     }
     
     public Money subtotal() {
-    return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
+        return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
     }
 
     public Money taxAtPercent(int percent) {
+        if (percent < 0) {
+            throw new IllegalArgumentException("Tax percent cannot be negative");
+        }
         Money sub = subtotal();
         return sub.multiply(percent).divide(100);
     }
