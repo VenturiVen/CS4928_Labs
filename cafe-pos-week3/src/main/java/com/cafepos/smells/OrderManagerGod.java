@@ -3,6 +3,7 @@ package com.cafepos.smells;
 import com.cafepos.common.Money;
 import com.cafepos.factory.ProductFactory;
 import com.cafepos.pricing.FixedCouponDiscount;
+import com.cafepos.pricing.FixedRateTaxPolicy;
 import com.cafepos.pricing.LoyaltyPercentDiscount;
 import com.cafepos.pricing.NoDiscount;
 import com.cafepos.catalog.Product;
@@ -53,9 +54,7 @@ public class OrderManagerGod {
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
 
-        var tax = Money.of(discounted.asBigDecimal()
-                .multiply(java.math.BigDecimal.valueOf(TAX_PERCENT))
-                .divide(java.math.BigDecimal.valueOf(100)));
+        var tax = new FixedRateTaxPolicy(TAX_PERCENT).taxOn(discounted);
         var total = discounted.add(tax);
 
         if (paymentType != null) {
