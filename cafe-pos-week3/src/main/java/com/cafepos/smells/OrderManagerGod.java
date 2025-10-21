@@ -1,7 +1,12 @@
 package com.cafepos.smells;
 
 import com.cafepos.common.Money;
+import com.cafepos.domain.Order;
+import com.cafepos.domain.OrderIds;
 import com.cafepos.factory.ProductFactory;
+import com.cafepos.payment.CardPayment;
+import com.cafepos.payment.CashPayment;
+import com.cafepos.payment.WalletPayment;
 import com.cafepos.pricing.FixedCouponDiscount;
 import com.cafepos.pricing.FixedRateTaxPolicy;
 import com.cafepos.pricing.LoyaltyPercentDiscount;
@@ -61,11 +66,11 @@ public class OrderManagerGod {
 
         if (paymentType != null) {
             if (paymentType.equalsIgnoreCase("CASH")) {
-                System.out.println("[Cash] Customer paid " + total + "EUR");
+                new CashPayment().pay(new Order(OrderIds.next()));
             } else if (paymentType.equalsIgnoreCase("CARD")) {
-                System.out.println("[Card] Customer paid " + total + "EUR with card ****1234");
+                new CardPayment("1234").pay((new Order(OrderIds.next())));
             } else if (paymentType.equalsIgnoreCase("WALLET")) {
-                System.out.println("[Wallet] Customer paid " + total + "EUR via wallet user-wallet-789");
+                new WalletPayment("user-wallet-789").pay(new Order(OrderIds.next()));
             } else {
                 System.out.println("[UnknownPayment] " + total);
             }
