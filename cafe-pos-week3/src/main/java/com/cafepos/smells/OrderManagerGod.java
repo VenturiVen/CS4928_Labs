@@ -13,13 +13,10 @@ import com.cafepos.pricing.LoyaltyPercentDiscount;
 import com.cafepos.pricing.NoDiscount;
 import com.cafepos.pricing.ReceiptPrinter;
 import com.cafepos.pricing.PricingService;
+import com.cafepos.pricing.Deductions;
 import com.cafepos.catalog.Product;
 
 public class OrderManagerGod {
-
-    public static int TAX_PERCENT = 10;
-
-    public static String LAST_DISCOUNT_CODE = null;
 
     public static String process(String recipe, int qty, String paymentType, String discountCode, boolean printReceipt)
     {
@@ -53,7 +50,7 @@ public class OrderManagerGod {
                 discount = new NoDiscount().discountOf(subtotal);
             }
 
-            LAST_DISCOUNT_CODE = discountCode;
+            Deductions.setLastDiscountCode(discountCode);
         }
 
         Money discounted = Money.of(subtotal.asBigDecimal().subtract(discount.asBigDecimal()));
@@ -61,7 +58,7 @@ public class OrderManagerGod {
         if (discounted.asBigDecimal().signum() < 0)
             discounted = Money.zero();
 
-        var tax = new FixedRateTaxPolicy(TAX_PERCENT).taxOn(discounted);
+        var tax = new FixedRateTaxPolicy(Deductions.getTaxPercent()).taxOn(discounted);
         var total = discounted.add(tax);
 
         if (paymentType != null) {
@@ -77,7 +74,7 @@ public class OrderManagerGod {
         }
 
         String receipt = new ReceiptPrinter()
-                .format(recipe, qty, new PricingService.PricingResult(subtotal, discount, tax, total), TAX_PERCENT);
+                .format(recipe, qty, new PricingService.PricingResult(subtotal, discount, tax, total), Deductions.getTaxPercent());
 
         System.out.println(receipt);
 
