@@ -24,7 +24,8 @@ public final class OrderService {
     public void removeLastItem() {
         var items = new java.util.ArrayList<>(order.items());
         if (!items.isEmpty()) {
-            var last = items.get(items.size() - 1);
+            // could be used for undo
+            // var last = items.get(items.size() - 1);
             items.remove(items.size() - 1);
             // replace items
             try {
