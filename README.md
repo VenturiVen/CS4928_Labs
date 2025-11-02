@@ -29,3 +29,11 @@ A real-world system where the Observer pattern is used is in social media platfo
 ### Which construction approach you would expose to application developers and why.
 
 Factory based construction using ProductFactory is the appraoch I would expose to application developers. It is simple, hiding the construction logic and decorator chaining, reducing room for error. It standardises the building procedure. It can easily be extended upon, allowing for easy addition of product types.
+
+## Week 8 Lab Questions
+
+### Where does Command decouple UI from business logic in your codebase?
+UI changes dont force you to change domain code because it only communicates with PosRemote and Command objects.
+
+### Why is adapting the legacy printer better than changing your domain or vendor class?
+Allows for backwards compatability and allows you to test your adapted code with the legacy code.
