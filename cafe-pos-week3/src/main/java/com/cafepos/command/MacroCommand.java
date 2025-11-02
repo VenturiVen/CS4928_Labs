@@ -16,6 +16,8 @@ public final class MacroCommand implements Command {
 
     @Override
     public void undo() {
-        for (int i = steps.length - 1; i >= 0; i--) steps[i].undo();
+        for (int i = steps.length - 1; i >= 0; i--) {
+            steps[i].undo();
+        }
     }
 }

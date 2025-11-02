@@ -17,4 +17,9 @@ public final class PayOrderCommand implements Command {
     public void execute() {
         service.pay(strategy, taxPercent);
     }
+
+    @Override
+    public void undo() {
+        service.removeLastItem();
+    }
 }
