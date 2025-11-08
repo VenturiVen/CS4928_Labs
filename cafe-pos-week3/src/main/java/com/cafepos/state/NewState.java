@@ -1,7 +1,11 @@
 package com.cafepos.state;
 
 final class NewState implements State {
-@Override public void pay(OrderFSM ctx) { System.out.println("[State] Paid → Preparing"); ctx.set(new PreparingState()); }
+    @Override
+    public void pay(OrderFSM ctx) {
+        System.out.println("[State] Paid → Preparing");
+        ctx.set(new PreparingState());
+    }
 
     @Override
     public void prepare(OrderFSM ctx) {

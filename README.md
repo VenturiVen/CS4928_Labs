@@ -37,3 +37,9 @@ UI changes dont force you to change domain code because it only communicates wit
 
 ### Why is adapting the legacy printer better than changing your domain or vendor class?
 Allows for backwards compatability and allows you to test your adapted code with the legacy code.
+
+## Week 9 Lab Questions
+
+### Where did you choose **safety** over **transparency** in your Composite API and why?
+
+###  What new behavior becomes easy with State that was awkward with conditionals?
