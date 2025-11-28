@@ -8,19 +8,37 @@ public final class Order {
     private final long id;
     private final List<LineItem> items = new ArrayList<>();
 
-    public Order(long id) { this.id = id; }
-    public long id() { return id; }
-    public List<LineItem> items() { return List.copyOf(items); }
+    public Order(long id) {
+        this.id = id;
+    }
 
-    public void addItem(LineItem li) { items.add(li); }
-    public void removeLastItem() { if (!items.isEmpty()) items.remove(items.size()-1); }
+    public long id() {
+        return id;
+    }
+
+    public List<LineItem> items() {
+        return List.copyOf(items);
+    }
+
+    public void addItem(LineItem li) {
+        items.add(li);
+    }
+
+    public void removeLastItem() {
+        if (!items.isEmpty())
+            items.remove(items.size() - 1);
+    }
 
     public Money subtotal() {
         return items.stream().map(LineItem::lineTotal).reduce(Money.zero(), Money::add);
     }
+
     public Money taxAtPercent(int percent) {
         var bd = subtotal().asBigDecimal().multiply(BigDecimal.valueOf(percent)).divide(BigDecimal.valueOf(100));
         return Money.of(bd);
     }
-    public Money totalWithTax(int percent) { return subtotal().add(taxAtPercent(percent)); }
+
+    public Money totalWithTax(int percent) {
+        return subtotal().add(taxAtPercent(percent));
+    }
 }

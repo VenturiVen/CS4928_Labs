@@ -1,7 +1,8 @@
-package com.cafepos.ui;
+package com.cafepos.demo;
 
 import com.cafepos.app.events.*;
 import com.cafepos.infra.Wiring;
+import com.cafepos.ui.OrderController;
 
 public final class EventWiringDemo {
     public static void main(String[] args) {

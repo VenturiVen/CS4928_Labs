@@ -10,7 +10,8 @@ public final class OrderController {
     private final ProductFactory factory = new ProductFactory();
 
     public OrderController(OrderRepository repo, CheckoutService checkout) {
-        this.repo = repo; this.checkout = checkout;
+        this.repo = repo;
+        this.checkout = checkout;
     }
 
     public long createOrder(long id) {

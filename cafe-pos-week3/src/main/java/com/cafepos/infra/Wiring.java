@@ -5,7 +5,8 @@ import com.cafepos.pricing.*;
 import com.cafepos.domain.*;
 
 public final class Wiring {
-    public static record Components(OrderRepository repo, PricingService pricing, CheckoutService checkout) {}
+    public static record Components(OrderRepository repo, PricingService pricing, CheckoutService checkout) {
+    }
 
     public static Components createDefault() {
         OrderRepository repo = new InMemoryOrderRepository();
