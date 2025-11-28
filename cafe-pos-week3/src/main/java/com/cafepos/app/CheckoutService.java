@@ -8,7 +8,8 @@ public final class CheckoutService {
     private final PricingService pricing;
 
     public CheckoutService(OrderRepository orders, PricingService pricing) {
-        this.orders = orders; this.pricing = pricing;
+        this.orders = orders;
+        this.pricing = pricing;
     }
 
     /** Returns a receipt string; does NOT print. */
