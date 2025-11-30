@@ -29,4 +29,9 @@ public final class LineItem {
         var unit = (product instanceof Priced p) ? p.price() : product.basePrice();
         return unit.multiply(quantity);
     }
+
+    @Override
+    public String toString() {
+        return product.name() + " x" + quantity + " = " + lineTotal();
+    }
 }

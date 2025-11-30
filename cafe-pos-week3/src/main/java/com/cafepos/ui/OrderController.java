@@ -25,6 +25,10 @@ public final class OrderController {
         repo.save(order);
     }
 
+    public void getItem(long orderId) {
+        repo.getItem(orderId);
+    }
+
     public String checkout(long orderId, int taxPercent) {
         return checkout.checkout(orderId, taxPercent);
     }

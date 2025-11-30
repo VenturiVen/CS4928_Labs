@@ -15,4 +15,9 @@ public final class InMemoryOrderRepository implements OrderRepository {
     public Optional<Order> findById(long id) {
         return Optional.ofNullable(store.get(id));
     }
+
+    @Override
+    public Order getItem(long id) {
+        return store.getOrDefault(id, null);
+    }
 }

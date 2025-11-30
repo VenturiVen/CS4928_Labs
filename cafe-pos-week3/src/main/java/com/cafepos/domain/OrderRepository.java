@@ -6,4 +6,6 @@ public interface OrderRepository {
     void save(Order order);
 
     Optional<Order> findById(long id);
+
+    Order getItem(long id);
 }

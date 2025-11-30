@@ -41,4 +41,14 @@ public final class Order {
     public Money totalWithTax(int percent) {
         return subtotal().add(taxAtPercent(percent));
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", items=" + items +
+                ", subtotal=" + subtotal() +
+                ", total=" + totalWithTax(10) +
+                '}';
+    }
 }
