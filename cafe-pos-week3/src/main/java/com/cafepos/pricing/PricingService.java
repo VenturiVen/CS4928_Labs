@@ -14,18 +14,11 @@ public final class PricingService {
     public PricingResult price(Money subtotal) {
         Money discount = discountPolicy.discountOf(subtotal);
         Money discounted = Money.of(subtotal.asBigDecimal().subtract(discount.asBigDecimal()));
-
-        if (discounted.asBigDecimal().signum() < 0) {
-            discounted = Money.zero();
-        }
-
+        if (discounted.asBigDecimal().signum() < 0) discounted = Money.zero();
         Money tax = taxPolicy.taxOn(discounted);
         Money total = discounted.add(tax);
-
         return new PricingResult(subtotal, discount, tax, total);
     }
 
-    public static record PricingResult(Money subtotal, Money discount, Money tax, Money total) {
-        
-    }
+    public static record PricingResult(Money subtotal, Money discount, Money tax, Money total) {}
 }

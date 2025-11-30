@@ -12,8 +12,7 @@ public final class LineItem {
         if (product == null)
             throw new IllegalArgumentException("product required");
         if (quantity <= 0)
-            throw new IllegalArgumentException("quantity must be > 0");
-
+            throw new IllegalArgumentException("quantity > 0 required");
         this.product = product;
         this.quantity = quantity;
     }
@@ -27,7 +26,12 @@ public final class LineItem {
     }
 
     public Money lineTotal() {
-        Money unit = (product instanceof Priced p) ? p.price() : product.basePrice();
+        var unit = (product instanceof Priced p) ? p.price() : product.basePrice();
         return unit.multiply(quantity);
+    }
+
+    @Override
+    public String toString() {
+        return product.name() + " x" + quantity + " = " + lineTotal();
     }
 }
